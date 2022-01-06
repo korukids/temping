@@ -1,5 +1,5 @@
-require "active_record"
-require "active_support/core_ext/string"
+require 'active_record'
+require 'active_support/core_ext/string'
 
 class Temping
   @model_klasses = []
@@ -13,16 +13,15 @@ class Temping
     end
 
     def teardown
-      if @model_klasses.any?
-        @model_klasses.each do |klass|
-          if Object.const_defined?(klass.name)
-            klass.connection.drop_table(klass.table_name)
-            Object.send(:remove_const, klass.name)
-          end
+      return if @model_klasses.none?
+
+      @model_klasses.each do |klass|
+        if Object.const_defined?(klass.name)
+          klass.connection.drop_table(klass.table_name)
+          Object.send(:remove_const, klass.name)
         end
-        @model_klasses.clear
-        ActiveSupport::Dependencies::Reference.clear!
       end
+      @model_klasses.clear
     end
 
     def cleanup
@@ -57,24 +56,22 @@ class Temping
     end
 
     def default_parent_class
-      if ActiveRecord::VERSION::MAJOR > 4 && defined?(ApplicationRecord)
+      if defined?(ApplicationRecord)
         ApplicationRecord
       else
         ActiveRecord::Base
       end
     end
 
-    DEFAULT_OPTIONS = { :temporary => true }
+    DEFAULT_OPTIONS = { temporary: true }.freeze
     def create_table(options = {})
-      connection.create_table(table_name, DEFAULT_OPTIONS.merge(options))
+      connection.create_table(table_name, **DEFAULT_OPTIONS.merge(options))
     end
 
     def add_methods
       class << klass
-        def with_columns
-          connection.change_table(table_name) do |table|
-            yield(table)
-          end
+        def with_columns(&block)
+          connection.change_table(table_name, &block)
         end
 
         def table_exists?

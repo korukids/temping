@@ -1,9 +1,0 @@
-sqlite3:
-  database: ":memory:"
-
-postgresql:
-  database: temping_test
-
-mysql2:
-  database: temping_test
-  username: root

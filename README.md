@@ -1,10 +1,5 @@
 # Temping
 
-[![Code Climate](https://codeclimate.com/github/jpignata/temping.png)](https://codeclimate.com/github/jpignata/temping)
-[![Build Status](https://travis-ci.org/jpignata/temping.png?branch=master)](https://travis-ci.org/jpignata/temping)
-[![Gem Version](https://badge.fury.io/rb/temping.png)](http://badge.fury.io/rb/temping)
-
-
 ## Description
 
 Temping allows you to create arbitrary ActiveRecord models backed by a temporary
@@ -162,8 +157,3 @@ Alternatively you may want to just cleanup tables, but keep defined models:
 ```ruby
 Temping.cleanup
 ```
-
-## Bugs, Features, Feedback
-
-All contributions are welcome! Please take a look at `CONTRIBUTING.md` for some
-tips.
